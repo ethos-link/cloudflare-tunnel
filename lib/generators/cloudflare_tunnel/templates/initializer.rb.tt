@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+if Rails.env.development?
+  Cloudflare::Tunnel.configure do |config|
+    config.hostname = <%= options[:hostname].inspect %>
+    config.origin = "http://localhost:#{ENV.fetch("PORT", <%= options[:port].to_s.inspect %>)}"
+    config.metrics_port = <%= options[:metrics_port] %>
+    config.log_level = :error
+    config.log_path = "log/cloudflare-tunnel.log" # nil discards connector output
+    config.retry_interval = 30
+    # config.executable = "/path/to/cloudflared"
+    # config.enabled = false # TUNNEL=0 also disables the default configuration
+    # Token defaults to TUNNEL_TOKEN or credentials.dig(:cloudflare, :tunnel, :token).
+  end
+end
