@@ -11,3 +11,5 @@
 
 # Lock shared development tooling reproducibly.
 !/Gemfile.lock
+
+/vendor/bundle/
