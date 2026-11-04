@@ -25,7 +25,7 @@ jobs:
   build:
     name: Build verified artifact
     if: github.event_name == 'push'
-    uses: ethos-link/ethos-gemkit/.github/workflows/release-build.yml@0780a40d5305c5df0c5c786f665e7ac2d4c673b9
+    uses: ethos-link/ethos-gemkit/.github/workflows/release-build.yml@02e6d96cd2110442b61468bdfbe99c5cc9c2fa2f
   context:
     if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
@@ -36,7 +36,7 @@ jobs:
       commit: ${{ steps.release.outputs.commit }}
     steps:
       - id: release
-        uses: ethos-link/ethos-gemkit/.github/actions/release-context@0780a40d5305c5df0c5c786f665e7ac2d4c673b9
+        uses: ethos-link/ethos-gemkit/.github/actions/release-context@02e6d96cd2110442b61468bdfbe99c5cc9c2fa2f
         with:
           tag: ${{ inputs.tag }}
           run-id: ${{ inputs.source-run-id }}
@@ -54,7 +54,7 @@ jobs:
       actions: read
       id-token: write
     steps:
-      - uses: ethos-link/ethos-gemkit/.github/actions/publish@0780a40d5305c5df0c5c786f665e7ac2d4c673b9
+      - uses: ethos-link/ethos-gemkit/.github/actions/publish@02e6d96cd2110442b61468bdfbe99c5cc9c2fa2f
         with:
           tag: ${{ inputs.tag || github.ref_name }}
           commit: ${{ needs.context.outputs.commit || github.sha }}
@@ -73,7 +73,7 @@ jobs:
       contents: write
       actions: read
     steps:
-      - uses: ethos-link/ethos-gemkit/.github/actions/notes@0780a40d5305c5df0c5c786f665e7ac2d4c673b9
+      - uses: ethos-link/ethos-gemkit/.github/actions/notes@02e6d96cd2110442b61468bdfbe99c5cc9c2fa2f
         with:
           tag: ${{ inputs.tag || github.ref_name }}
           commit: ${{ needs.context.outputs.commit || github.sha }}

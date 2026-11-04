@@ -7,9 +7,9 @@ permissions:
   contents: read
 jobs:
   sync:
-    uses: ethos-link/ethos-gemkit/.github/workflows/sync-gitlab.yml@0780a40d5305c5df0c5c786f665e7ac2d4c673b9
+    uses: ethos-link/ethos-gemkit/.github/workflows/sync-gitlab.yml@02e6d96cd2110442b61468bdfbe99c5cc9c2fa2f
     with:
-      toolkit-ref: 0780a40d5305c5df0c5c786f665e7ac2d4c673b9
+      toolkit-ref: 02e6d96cd2110442b61468bdfbe99c5cc9c2fa2f
     secrets:
       GITLAB_DEPLOY_KEY: ${{ secrets.GITLAB_DEPLOY_KEY }}
       GITLAB_KNOWN_HOSTS: ${{ secrets.GITLAB_KNOWN_HOSTS }}

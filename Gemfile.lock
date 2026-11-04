@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/ethos-link/ethos-gemkit.git
-  revision: 0780a40d5305c5df0c5c786f665e7ac2d4c673b9
-  ref: 0780a40d5305c5df0c5c786f665e7ac2d4c673b9
+  revision: 02e6d96cd2110442b61468bdfbe99c5cc9c2fa2f
+  ref: 02e6d96cd2110442b61468bdfbe99c5cc9c2fa2f
   specs:
     ethos-gemkit (0.1.0)
       commitlint (~> 0.4)
