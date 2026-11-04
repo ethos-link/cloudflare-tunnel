@@ -8,7 +8,7 @@ Rake::TestTask.new(:test) do |task|
   task.test_files = FileList["test/**/*_test.rb"]
 end
 
-require "standard/rake"
-load "tasks/release.rake"
+require "ethos/gemkit/tasks"
+require "ethos/gemkit/release_tasks"
 
-task default: %i[test standard]
+task default: :verify

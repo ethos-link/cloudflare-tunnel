@@ -5,7 +5,8 @@ Offline startup and connection loss stay quiet and do not stop the server or
 jobs. The gem supervises an existing `cloudflared` executable; it never installs,
 downloads or updates it, creates a tunnel, or changes DNS.
 
-Requires Ruby 4.0+, Rails 8.1 and a POSIX host (Linux or macOS).
+Requires Ruby 4.0+ and a POSIX host (Linux or macOS). Rails integration
+requires host-installed Rails 8.1+. Runner and probe classes can load without Rails.
 MIT licensed; maintained by [Ethos Link](https://www.ethos-link.com).
 This is an independent integration.
 
@@ -137,6 +138,29 @@ Run `bin/setup` to install development dependencies, then `bin/ci` to run
 Minitest, Standard Ruby, the gem build and changelog generation. Tests control
 connector executables and HTTP boundaries; they need no Cloudflare account or
 internet once dependencies are installed.
+
+Development tooling comes from an immutable `ethos-gemkit` Git revision. Set
+`ETHOS_GEMKIT_PATH` only when testing a local toolkit checkout. Ruby and Bundler
+versions are pinned for CI; install git-cliff 2.12.0 for changelog/release checks.
+
+Use `bundle exec rake release:rehearse` to test the complete release in temporary
+repositories with a local registry. It creates no real release, tag or upload.
+For a real release, install hooks, start from clean and current `main`, run
+`bundle exec rake 'release:prepare[patch]'`, review the pushed metadata, then run
+`bundle exec rake release:tag`. Shared checks and hooks remain enabled. Use
+`release:resume` after an interrupted metadata push; never replace an existing
+tag. Local `rake release` is blocked; the tag workflow publishes the verified
+artifact with RubyGems trusted publishing.
+
+If publication succeeds but GitHub notes fail, use the Release workflow's manual
+recovery from `main`: supply the original tag and build run ID, keeping
+notes-only selected. Recovery downloads the original artifact and validates its
+source run and digest. It never rebuilds the published version. Historical
+`v0.1.0` predates this artifact contract and requires manual reconciliation.
+
+GitLab sync is disabled: this repository has no `gitlab_url`. It requires an
+explicit SSH project URL plus a provisioned write deploy key and verified host
+keys before any sync job can run.
 
 Use `bundle exec rake -T` to list available tasks. See the
 [changelog](CHANGELOG.md) for version history.

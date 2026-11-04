@@ -1,0 +1,15 @@
+name: Optional GitLab sync
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sync:
+    uses: ethos-link/ethos-gemkit/.github/workflows/sync-gitlab.yml@f195a18deb21a557b08fa2032191e9a45e86183e
+    with:
+      toolkit-ref: f195a18deb21a557b08fa2032191e9a45e86183e
+    secrets:
+      GITLAB_DEPLOY_KEY: ${{ secrets.GITLAB_DEPLOY_KEY }}
+      GITLAB_KNOWN_HOSTS: ${{ secrets.GITLAB_KNOWN_HOSTS }}

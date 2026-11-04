@@ -1,0 +1,12 @@
+name: Verification
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  checks:
+    uses: ethos-link/ethos-gemkit/.github/workflows/consumer.yml@f195a18deb21a557b08fa2032191e9a45e86183e
+    with:
+      rehearse: true

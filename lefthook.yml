@@ -1,13 +1,8 @@
 pre-commit:
   jobs:
     - name: feature-branch
-      run: |
-        branch=$(git branch --show-current)
-        if [ "$branch" = main ] || [ "$branch" = master ]; then
-          echo "Use a feature branch; direct commits to main/master are blocked."
-          exit 1
-        fi
+      run: bundle exec ethos-gemkit guard
 commit-msg:
   jobs:
     - name: commitlint
-      run: bundle exec commitlint --message "$(cat {1})"
+      run: bundle exec ethos-gemkit commitlint --message {1}
