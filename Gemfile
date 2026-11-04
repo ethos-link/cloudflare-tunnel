@@ -7,7 +7,7 @@ gem "minitest", "~> 5.0"
 gem "simplecov", "~> 0.22", require: false
 gem "webmock", "~> 3.0"
 
-gem "ethos-gemkit", "0.1.0", group: [:development, :test], require: false
+gem "ethos-gemkit", "0.2.0", group: [:development, :test], require: false
 
 group :test do
   gem "railties", ">= 8.1", "< 9", require: false
