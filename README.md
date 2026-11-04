@@ -132,85 +132,31 @@ management API token is required.
 References: [run parameters](https://developers.cloudflare.com/tunnel/reference/run-parameters/)
 and [readiness example](https://developers.cloudflare.com/tunnel/guides/kubernetes/).
 
-## Development
+## Development and releases
 
-Run `bin/setup` to install development dependencies, then `bin/ci` to run
-Minitest, Standard Ruby, the gem build and changelog generation. Tests control
-connector executables and HTTP boundaries; they need no Cloudflare account or
-internet once dependencies are installed.
-
-Development defaults come from the published `ethos-gemkit` 0.1.0 gem. Workflow
-callers pin the same release commit. `bin/ci` runs the shared lint, test, package
-and git-cliff checks.
-
-## Releases
-
-Configure **cloudflare-tunnel → Trusted publishers** on RubyGems before its
-first release through Gemkit:
-
-| RubyGems field | Value |
-|---|---|
-| Repository owner | `ethos-link` |
-| Repository name | `cloudflare-tunnel` |
-| Workflow filename | `release.yml` |
-| Environment | `rubygems` |
-| Workflow Repository Owner | `ethos-link` |
-| Workflow Repository Name | `ethos-gemkit` |
-
-The Workflow Repository fields are required because the publishing workflow lives
-in Gemkit. Gemkit's own trusted-publisher registration does not authorize Tunnel.
-
-After setup, start from clean, up-to-date main and run:
+Use published [Ethos Gemkit](https://github.com/ethos-link/ethos-gemkit) for shared
+tooling. Keep the exact Gemfile version and workflow commit pins on the same release.
 
 ```sh
-git switch main
-git pull --ff-only
 bundle install
-bundle exec rake 'release:prepare[patch]'
+bundle exec lefthook install
+bundle exec rake verify
 ```
 
-Use `minor`, `major` or an explicit version instead of `patch` when appropriate.
-The task creates `chore/release-vVERSION`, updates the version, changelog and
-lockfile, runs all checks, commits with hooks enabled, pushes the branch and
-opens a release PR. Review the PR and any upgrade notes before merging.
+Tests use controlled local fixtures and need no service account. From clean,
+current main, run `bundle exec rake 'release:prepare[patch]'`; review and merge
+the generated PR to publish through Actions. Shared prerequisites, publisher
+settings and failed-job recovery are in the [Gemkit guide](https://github.com/ethos-link/ethos-gemkit#releasing-a-gem).
 
-**Merging that release PR builds, tags and publishes the gem automatically.**
-The shared workflow uses the exact reviewed merge commit and creates the GitHub
-release after publication. The normal flow needs no manual tag command.
+## Built by Ethos Link
 
-If credential setup reports `No trusted publisher configured for this workflow`
-and `gem push` was skipped, correct the RubyGems settings above and rerun only
-failed jobs in the original workflow run:
+[Ethos Link](https://www.ethos-link.com) builds business software and integrations
+that replace manual handoffs with connected workflows. We help teams automate
+routine work, use their data and improve the processes their business runs on.
 
-```sh
-gh run rerun RUN_ID --repo ethos-link/cloudflare-tunnel --failed
-```
-
-The verified artifact and existing tag are reused. Do not prepare a new release,
-bump the version or replace the tag to recover from this authentication failure.
-
-For failed release notes, rerun only failed jobs in the original workflow run;
-the same artifact is reused without republishing. The
-[toolkit release guide](https://github.com/ethos-link/ethos-gemkit#releasing-a-gem)
-covers CLI/hook prerequisites, publisher fields, environment permissions,
-preparation failures and upload reconciliation.
-
-GitLab sync has no caller because no target URL is configured.
-
-## More from Ethos Link
-
-Cloudflare Tunnel is maintained by [Ethos Link](https://www.ethos-link.com),
-the software company behind Reviato and Nuntio. We build business products and
-share open-source software.
-
-- [Reviato — customer feedback and review analytics](https://www.reviato.com):
-  Collect private guest feedback and explore recurring themes in public reviews.
-  Hotels, restaurants and other local businesses can read the original customer
-  comments, track feedback and decide what needs attention.
-- [Nuntio — social media scheduling and publishing](https://www.nuntiohq.com):
-  Prepare social posts ahead of time, adapt captions and media for each channel,
-  and bring drafts, team review, scheduling and publishing outcomes into one
-  workspace.
-
-Explore [Ethos Link's products](https://www.ethos-link.com/products) and
-[open-source projects](https://www.ethos-link.com/opensource).
+- [Reviato](https://www.reviato.com): Read public review trends and collect
+  private customer feedback, so your team can decide what to improve.
+- [EthosPlaces](https://www.ethos.place): Give customers the details they need to
+  choose and visit your business, from opening hours to directions.
+- [Nuntio](https://www.nuntiohq.com): Draft, review and schedule social posts in
+  one workspace, then track each publishing result.
