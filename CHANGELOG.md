@@ -15,3 +15,8 @@
   checks, commits version and changelog updates, and pushes the branch and tag.
 - The first release can use the existing version and changelog without a version
   bump or empty commit. Publishing runs in GitHub Actions after the tag is pushed.
+
+### Fixed
+
+- Declare the RubyGems owner during the trusted-publishing token exchange so the
+  pending trusted publisher can create the gem on its first release.
