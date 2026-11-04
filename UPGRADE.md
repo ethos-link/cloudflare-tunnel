@@ -12,4 +12,3 @@ when using framework features. Development uses an immutable ethos-gemkit Git re
 Railties is no longer installed as a runtime dependency. Plain Ruby entry points
 work without it. For an application that loads the core before Rails, explicitly
 require `cloudflare/tunnel/rails` after installing compatible Rails.
-
