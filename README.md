@@ -144,21 +144,28 @@ no Cloudflare account or internet once dependencies are installed. Use
 `bundle exec rake -T` to list tasks. Branch/PR Actions runs commitlint only.
 All other checks run locally and in the tag-triggered release workflow.
 
-Prepare a version on a feature branch:
+Prepare a new version from a clean `main` working tree:
 
 ```sh
 bundle exec rake 'release:prepare[patch]' # minor, major or a newer X.Y.Z
-bin/ci
-# Review and commit version/changelog, then open and merge a PR.
 ```
 
-On clean, synchronized `main`, `bundle exec rake release:tag` verifies the
-version/changelog and runs local CI, then creates and pushes an annotated tag.
-This supports the first `0.1.0` release, whose changelog entry is already present.
-It never commits to main or publishes locally. `rake release` refuses local
-publication. A `v*` tag triggers `.github/workflows/release.yml`: verify main
-ancestry and version, run `bin/ci`, publish to RubyGems and create a GitHub release
-with release notes and the gem attached.
+The task checks for existing local and remote tags, updates the changelog and
+version, runs `bin/ci`, commits with `LEFTHOOK=0`, creates an annotated tag, and
+pushes the branch followed by the tag. This matches Indexmap and Crawlscope;
+release commits bypass the hook that normally blocks direct commits to main.
+
+For the first `0.1.0` release, whose version and changelog are already present,
+run `bundle exec rake 'release:prepare[0.1.0]'`. With no existing release tags,
+the task accepts the current version, verifies its changelog entry, runs checks,
+and pushes the branch and tag without creating an empty commit. Subsequent
+releases require a newer version. `release:tag` remains available to tag an
+already prepared version on clean, synchronized `main`.
+
+`rake release` refuses local publication. A `v*` tag triggers
+`.github/workflows/release.yml`: verify main ancestry and version, run `bin/ci`,
+publish to RubyGems and create a GitHub release with release notes and the gem
+attached.
 
 Before the first tag, configure a RubyGems pending trusted publisher for gem
 `cloudflare-tunnel`, owner `ethos-link`, repository `cloudflare-tunnel`, workflow
