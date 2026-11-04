@@ -1,0 +1,51 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: rubygems
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Ensure tag belongs to main
+        run: git merge-base --is-ancestor HEAD origin/main
+      - name: Verify version and changelog
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: bundle exec rake release:verify
+      - name: Install git-cliff
+        uses: taiki-e/install-action@v2
+        with:
+          tool: git-cliff
+      - name: Validate and build
+        run: bin/ci
+      - name: Extract release notes
+        run: |
+          ruby -e 'v = ENV.fetch("GITHUB_REF_NAME").delete_prefix("v"); notes = File.read("CHANGELOG.md").split(/^## /).find { |s| s.start_with?("[#{v}]") }; abort "Missing release notes" unless notes; File.write("tmp/release-notes.md", "## #{notes}")'
+      - name: Configure RubyGems credentials
+        uses: rubygems/configure-rubygems-credentials@bc6dd217f8a4f919d6835fcfefd470ef821f5c44
+      - name: Publish to RubyGems
+        run: gem push pkg/cloudflare-tunnel-*.gem
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: tmp/release-notes.md
+          files: pkg/cloudflare-tunnel-*.gem
