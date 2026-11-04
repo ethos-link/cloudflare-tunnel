@@ -6,7 +6,8 @@ jobs. The gem supervises an existing `cloudflared` executable; it never installs
 downloads or updates it, creates a tunnel, or changes DNS.
 
 Requires Ruby 4.0+, Rails 8.1 and a POSIX host (Linux or macOS).
-MIT licensed; maintained by Ethos Link. This is an independent integration.
+MIT licensed; maintained by [Ethos Link](https://www.ethos-link.com).
+This is an independent integration.
 
 ## Rails setup
 
@@ -28,10 +29,7 @@ bin/rails generate cloudflare_tunnel:install \
 ```
 
 The generator creates `config/initializers/cloudflare_tunnel.rb` and adds
-`tunnel: bin/rails cloudflare_tunnel:start` to `Procfile.dev`. It replaces the
-legacy `tunnel: bin/tunnel` entry, preserves other services and custom tunnel
-commands, and avoids duplicate entries. Remove the old script after migrating.
-If you have no `bin/dev`, run the task separately or use your Procfile manager.
+`tunnel: bin/rails cloudflare_tunnel:start` to `Procfile.dev`.
 
 Install the executable yourself using [Cloudflare's instructions](https://developers.cloudflare.com/tunnel/downloads/).
 When missing, the start task prints that link once and stays idle so Foreman
@@ -173,3 +171,21 @@ Before the first tag, configure a RubyGems pending trusted publisher for gem
 and release restrictions. Publishing uses OIDC with the RubyGems credentials
 action used by Indexmap and Crawlscope. No publishing token is stored here.
 Creating this workflow does not register the publisher or publish a release.
+
+## More from Ethos Link
+
+Cloudflare Tunnel is maintained by [Ethos Link](https://www.ethos-link.com),
+the software company behind Reviato and Nuntio. We build business products and
+share open-source tools for developers working with Ruby and Rails.
+
+- [Reviato — customer feedback and review analytics](https://www.reviato.com):
+  Collect private guest feedback and explore recurring themes in public reviews.
+  Hotels, restaurants and other local businesses can read the original customer
+  comments, track feedback and decide what needs attention.
+- [Nuntio — social media scheduling and publishing](https://www.nuntiohq.com):
+  Prepare social posts ahead of time, adapt captions and media for each channel,
+  and bring drafts, team review, scheduling and publishing outcomes into one
+  workspace.
+
+Explore [Ethos Link's products](https://www.ethos-link.com/products) and
+[open-source projects](https://www.ethos-link.com/opensource).
