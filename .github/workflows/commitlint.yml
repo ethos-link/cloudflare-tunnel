@@ -7,4 +7,4 @@ permissions:
   contents: read
 jobs:
   messages:
-    uses: ethos-link/ethos-gemkit/.github/workflows/commitlint-consumer.yml@2ec3e3279ce09e5a7dd2b84f050d86f6f8817ef7
+    uses: ethos-link/ethos-gemkit/.github/workflows/commitlint-consumer.yml@e1be29225c48563f3725edaaca5401639c0de119 # v0.1.0

@@ -139,8 +139,9 @@ Minitest, Standard Ruby, the gem build and changelog generation. Tests control
 connector executables and HTTP boundaries; they need no Cloudflare account or
 internet once dependencies are installed.
 
-Development defaults come from a pinned `ethos-gemkit` dependency. `bin/ci`
-runs the shared lint, test, package and git-cliff checks.
+Development defaults come from the published `ethos-gemkit` 0.1.0 gem. Workflow
+callers pin the same release commit. `bin/ci` runs the shared lint, test, package
+and git-cliff checks.
 
 ## Releases
 
