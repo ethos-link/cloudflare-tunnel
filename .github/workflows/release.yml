@@ -2,11 +2,14 @@ name: Release
 on:
   push:
     tags: ["v*"]
+  pull_request:
+    types: [closed]
+    branches: [main]
 permissions:
   contents: write
   id-token: write
 jobs:
   release:
-    uses: ethos-link/ethos-gemkit/.github/workflows/release.yml@e00a2ad179a9e53abf08a7ac696f42792d3c871b
+    uses: ethos-link/ethos-gemkit/.github/workflows/release.yml@8441b78f7c9bae4ce170485fb246d3775c43c748
     with:
       rubygems-owner: '27209'

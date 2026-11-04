@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/ethos-link/ethos-gemkit.git
-  revision: e00a2ad179a9e53abf08a7ac696f42792d3c871b
-  ref: e00a2ad179a9e53abf08a7ac696f42792d3c871b
+  revision: 8441b78f7c9bae4ce170485fb246d3775c43c748
+  ref: 8441b78f7c9bae4ce170485fb246d3775c43c748
   specs:
     ethos-gemkit (0.1.0)
       lefthook (~> 2.1)

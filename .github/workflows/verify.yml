@@ -7,4 +7,4 @@ permissions:
   contents: read
 jobs:
   checks:
-    uses: ethos-link/ethos-gemkit/.github/workflows/consumer.yml@e00a2ad179a9e53abf08a7ac696f42792d3c871b
+    uses: ethos-link/ethos-gemkit/.github/workflows/consumer.yml@8441b78f7c9bae4ce170485fb246d3775c43c748

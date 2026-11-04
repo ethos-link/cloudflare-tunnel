@@ -142,15 +142,31 @@ internet once dependencies are installed.
 Development defaults come from a pinned `ethos-gemkit` dependency. `bin/ci`
 runs the shared lint, test, package and git-cliff checks.
 
-Prepare releases on a feature branch with
-`bundle exec rake 'release:prepare[patch]'`, run `bundle lock --local`, review and
-commit the changes, then merge the PR. Tag the reviewed main commit with an
-annotated `vVERSION` tag and push it explicitly with `--no-follow-tags`.
-The shared workflow verifies, builds and publishes the exact gem. For failed
-release notes, rerun only failed jobs in the original workflow run; it reuses the
-artifact without republishing. See the
-[toolkit release instructions](https://github.com/ethos-link/ethos-gemkit#readme)
-for trusted-publisher registration and upload reconciliation.
+## Releases
+
+After configuring the shared RubyGems trusted publisher, start from clean,
+up-to-date main and run:
+
+```sh
+git switch main
+git pull --ff-only
+bundle install
+bundle exec rake 'release:prepare[patch]'
+```
+
+Use `minor`, `major` or an explicit version instead of `patch` when appropriate.
+The task creates `chore/release-vVERSION`, updates the version, changelog and
+lockfile, runs all checks, commits with hooks enabled, pushes the branch and
+opens a release PR. Review the PR and any upgrade notes before merging.
+
+**Merging that release PR builds, tags and publishes the gem automatically.**
+The shared workflow uses the exact reviewed merge commit and creates the GitHub
+release after publication. The normal flow needs no manual tag command.
+For failed release notes, rerun only failed jobs in the original workflow run;
+the same artifact is reused without republishing. The
+[toolkit release guide](https://github.com/ethos-link/ethos-gemkit#releasing-a-gem)
+covers CLI/hook prerequisites, publisher fields, environment permissions,
+preparation failures and upload reconciliation.
 
 GitLab sync has no caller because no target URL is configured.
 
