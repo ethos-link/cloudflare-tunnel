@@ -145,8 +145,22 @@ and git-cliff checks.
 
 ## Releases
 
-After configuring the shared RubyGems trusted publisher, start from clean,
-up-to-date main and run:
+Configure **cloudflare-tunnel → Trusted publishers** on RubyGems before its
+first release through Gemkit:
+
+| RubyGems field | Value |
+|---|---|
+| Repository owner | `ethos-link` |
+| Repository name | `cloudflare-tunnel` |
+| Workflow filename | `release.yml` |
+| Environment | `rubygems` |
+| Workflow Repository Owner | `ethos-link` |
+| Workflow Repository Name | `ethos-gemkit` |
+
+The Workflow Repository fields are required because the publishing workflow lives
+in Gemkit. Gemkit's own trusted-publisher registration does not authorize Tunnel.
+
+After setup, start from clean, up-to-date main and run:
 
 ```sh
 git switch main
@@ -163,6 +177,18 @@ opens a release PR. Review the PR and any upgrade notes before merging.
 **Merging that release PR builds, tags and publishes the gem automatically.**
 The shared workflow uses the exact reviewed merge commit and creates the GitHub
 release after publication. The normal flow needs no manual tag command.
+
+If credential setup reports `No trusted publisher configured for this workflow`
+and `gem push` was skipped, correct the RubyGems settings above and rerun only
+failed jobs in the original workflow run:
+
+```sh
+gh run rerun RUN_ID --repo ethos-link/cloudflare-tunnel --failed
+```
+
+The verified artifact and existing tag are reused. Do not prepare a new release,
+bump the version or replace the tag to recover from this authentication failure.
+
 For failed release notes, rerun only failed jobs in the original workflow run;
 the same artifact is reused without republishing. The
 [toolkit release guide](https://github.com/ethos-link/ethos-gemkit#releasing-a-gem)
