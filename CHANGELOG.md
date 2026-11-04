@@ -15,3 +15,8 @@
   checks, commits version and changelog updates, and pushes the branch and tag.
 - The first release can use the existing version and changelog without a version
   bump or empty commit. Publishing runs in GitHub Actions after the tag is pushed.
+
+### Fixed
+
+- Use a shared credentials action with an explicit RubyGems owner for trusted
+  publishing of both first and subsequent releases.
