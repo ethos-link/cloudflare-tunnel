@@ -2,13 +2,12 @@
 
 ## Unreleased
 
-### Shared gem development and runtime baseline
+Ruby 4.0 or newer is required. Rails integration requires host-installed Rails
+8.1 or newer within Rails 8. Railties is optional: core runner and probe entry
+points work without it. Applications that load the core before Rails should
+explicitly require `cloudflare/tunnel/rails` after installing compatible Rails.
 
-Ruby 4.0 or newer is required. Rails integrations support Rails 8; retain any
-higher documented minimum for this gem. Install Rails in the host application
-when using framework features. Development uses an immutable ethos-gemkit Git revision.
-`ETHOS_GEMKIT_PATH` may override it for local toolkit work.
-
-Railties is no longer installed as a runtime dependency. Plain Ruby entry points
-work without it. For an application that loads the core before Rails, explicitly
-require `cloudflare/tunnel/rails` after installing compatible Rails.
+Development uses a pinned ethos-gemkit dependency. Release metadata changes now
+use ordinary feature-branch PRs, followed by an annotated tag after merging.
+The shared RubyGems workflow requires the trusted-publisher registration described
+in the toolkit README before its first live release.

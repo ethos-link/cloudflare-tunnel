@@ -2,81 +2,11 @@ name: Release
 on:
   push:
     tags: ["v*"]
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: Existing release tag to recover
-        required: true
-        type: string
-      source-run-id:
-        description: Original tag-push build run ID (artifact retained for 90 days)
-        required: true
-        type: string
-      notes-only:
-        description: Recover notes without requesting publishing credentials
-        type: boolean
-        default: true
 permissions:
-  contents: read
-concurrency:
-  group: release-${{ inputs.tag || github.ref_name }}
-  cancel-in-progress: false
+  contents: write
+  id-token: write
 jobs:
-  build:
-    name: Build verified artifact
-    if: github.event_name == 'push'
-    uses: ethos-link/ethos-gemkit/.github/workflows/release-build.yml@02e6d96cd2110442b61468bdfbe99c5cc9c2fa2f
-  context:
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: read
-      actions: read
-    outputs:
-      commit: ${{ steps.release.outputs.commit }}
-    steps:
-      - id: release
-        uses: ethos-link/ethos-gemkit/.github/actions/release-context@02e6d96cd2110442b61468bdfbe99c5cc9c2fa2f
-        with:
-          tag: ${{ inputs.tag }}
-          run-id: ${{ inputs.source-run-id }}
-          github-token: ${{ github.token }}
   release:
-    needs: [build, context]
-    if: >-
-      always() &&
-      ((github.event_name == 'push' && needs.build.result == 'success') ||
-      (github.event_name == 'workflow_dispatch' && needs.context.result == 'success' && !inputs.notes-only))
-    runs-on: ubuntu-24.04
-    environment: rubygems
-    permissions:
-      contents: read
-      actions: read
-      id-token: write
-    steps:
-      - uses: ethos-link/ethos-gemkit/.github/actions/publish@02e6d96cd2110442b61468bdfbe99c5cc9c2fa2f
-        with:
-          tag: ${{ inputs.tag || github.ref_name }}
-          commit: ${{ needs.context.outputs.commit || github.sha }}
-          gem-name: cloudflare-tunnel
-          owner: '27209'
-          run-id: ${{ inputs.source-run-id }}
-          github-token: ${{ github.token }}
-  notes:
-    needs: [build, context, release]
-    if: >-
-      always() &&
-      (needs.release.result == 'success' ||
-      (github.event_name == 'workflow_dispatch' && needs.context.result == 'success' && inputs.notes-only))
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: write
-      actions: read
-    steps:
-      - uses: ethos-link/ethos-gemkit/.github/actions/notes@02e6d96cd2110442b61468bdfbe99c5cc9c2fa2f
-        with:
-          tag: ${{ inputs.tag || github.ref_name }}
-          commit: ${{ needs.context.outputs.commit || github.sha }}
-          gem-name: cloudflare-tunnel
-          run-id: ${{ inputs.source-run-id }}
-          github-token: ${{ github.token }}
+    uses: ethos-link/ethos-gemkit/.github/workflows/release.yml@e00a2ad179a9e53abf08a7ac696f42792d3c871b
+    with:
+      rubygems-owner: '27209'

@@ -139,31 +139,20 @@ Minitest, Standard Ruby, the gem build and changelog generation. Tests control
 connector executables and HTTP boundaries; they need no Cloudflare account or
 internet once dependencies are installed.
 
-Development tooling comes from an immutable `ethos-gemkit` Git revision. Set
-`ETHOS_GEMKIT_PATH` only when testing a local toolkit checkout. Ruby and Bundler
-versions are pinned for CI; install git-cliff 2.12.0 for changelog/release checks.
+Development defaults come from a pinned `ethos-gemkit` dependency. `bin/ci`
+runs the shared lint, test, package and git-cliff checks.
 
-Use `bundle exec rake release:rehearse` to test the complete release in temporary
-repositories with a local registry. It creates no real release, tag or upload.
-For a real release, install hooks, start from clean and current `main`, run
-`bundle exec rake 'release:prepare[patch]'`, review the pushed metadata, then run
-`bundle exec rake release:tag`. Shared checks and hooks remain enabled. Use
-`release:resume` after an interrupted metadata push; never replace an existing
-tag. Local `rake release` is blocked; the tag workflow publishes the verified
-artifact with RubyGems trusted publishing.
+Prepare releases on a feature branch with
+`bundle exec rake 'release:prepare[patch]'`, run `bundle lock --local`, review and
+commit the changes, then merge the PR. Tag the reviewed main commit with an
+annotated `vVERSION` tag and push it explicitly with `--no-follow-tags`.
+The shared workflow verifies, builds and publishes the exact gem. For failed
+release notes, rerun only failed jobs in the original workflow run; it reuses the
+artifact without republishing. See the
+[toolkit release instructions](https://github.com/ethos-link/ethos-gemkit#readme)
+for trusted-publisher registration and upload reconciliation.
 
-If publication succeeds but GitHub notes fail, use the Release workflow's manual
-recovery from `main`: supply the original tag and build run ID, keeping
-notes-only selected. Recovery downloads the original artifact and validates its
-source run and digest. It never rebuilds the published version. Historical
-`v0.1.0` predates this artifact contract and requires manual reconciliation.
-
-GitLab sync is disabled: this repository has no `gitlab_url`. It requires an
-explicit SSH project URL plus a provisioned write deploy key and verified host
-keys before any sync job can run.
-
-Use `bundle exec rake -T` to list available tasks. See the
-[changelog](CHANGELOG.md) for version history.
+GitLab sync has no caller because no target URL is configured.
 
 ## More from Ethos Link
 
