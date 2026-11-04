@@ -1,5 +1,12 @@
 # frozen_string_literal: true
 
+require "rails"
+require "rails/railtie"
+
+unless Gem::Requirement.new(">= 8.1", "< 9").satisfied_by?(Gem.loaded_specs.fetch("railties").version)
+  raise LoadError, "cloudflare-tunnel integration requires Rails 8.1 or newer within Rails 8"
+end
+
 module Cloudflare
   module Tunnel
     class Railtie < Rails::Railtie

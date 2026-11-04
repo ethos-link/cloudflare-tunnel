@@ -5,7 +5,8 @@ Offline startup and connection loss stay quiet and do not stop the server or
 jobs. The gem supervises an existing `cloudflared` executable; it never installs,
 downloads or updates it, creates a tunnel, or changes DNS.
 
-Requires Ruby 4.0+, Rails 8.1 and a POSIX host (Linux or macOS).
+Requires Ruby 4.0+ and a POSIX host (Linux or macOS). Rails integration
+requires host-installed Rails 8.1+. Runner and probe classes can load without Rails.
 MIT licensed; maintained by [Ethos Link](https://www.ethos-link.com).
 This is an independent integration.
 
@@ -138,8 +139,37 @@ Minitest, Standard Ruby, the gem build and changelog generation. Tests control
 connector executables and HTTP boundaries; they need no Cloudflare account or
 internet once dependencies are installed.
 
-Use `bundle exec rake -T` to list available tasks. See the
-[changelog](CHANGELOG.md) for version history.
+Development defaults come from the published `ethos-gemkit` 0.1.0 gem. Workflow
+callers pin the same release commit. `bin/ci` runs the shared lint, test, package
+and git-cliff checks.
+
+## Releases
+
+After configuring the shared RubyGems trusted publisher, start from clean,
+up-to-date main and run:
+
+```sh
+git switch main
+git pull --ff-only
+bundle install
+bundle exec rake 'release:prepare[patch]'
+```
+
+Use `minor`, `major` or an explicit version instead of `patch` when appropriate.
+The task creates `chore/release-vVERSION`, updates the version, changelog and
+lockfile, runs all checks, commits with hooks enabled, pushes the branch and
+opens a release PR. Review the PR and any upgrade notes before merging.
+
+**Merging that release PR builds, tags and publishes the gem automatically.**
+The shared workflow uses the exact reviewed merge commit and creates the GitHub
+release after publication. The normal flow needs no manual tag command.
+For failed release notes, rerun only failed jobs in the original workflow run;
+the same artifact is reused without republishing. The
+[toolkit release guide](https://github.com/ethos-link/ethos-gemkit#releasing-a-gem)
+covers CLI/hook prerequisites, publisher fields, environment permissions,
+preparation failures and upload reconciliation.
+
+GitLab sync has no caller because no target URL is configured.
 
 ## More from Ethos Link
 
