@@ -11,16 +11,13 @@ This is an independent integration.
 
 ## Rails setup
 
-Add to the development group (once published):
+Add to the development group:
 
 ```ruby
 group :development do
   gem "cloudflare-tunnel", "~> 0.1"
 end
 ```
-
-Before the first release, use the GitHub repository pinned to a reviewed commit,
-or a local `path:` dependency while developing the gem.
 
 ```sh
 bundle install
@@ -134,49 +131,21 @@ management API token is required.
 References: [run parameters](https://developers.cloudflare.com/tunnel/reference/run-parameters/)
 and [readiness example](https://developers.cloudflare.com/tunnel/guides/kubernetes/).
 
-## Development and releases
+## Development
 
-Run `bin/setup`, then `bin/ci` for Minitest, Standard Ruby, gem build and git-cliff
-generation. Tests control connector executables and HTTP boundaries; they need
-no Cloudflare account or internet once dependencies are installed. Use
-`bundle exec rake -T` to list tasks. Branch/PR Actions runs commitlint only.
-All other checks run locally and in the tag-triggered release workflow.
+Run `bin/setup` to install development dependencies, then `bin/ci` to run
+Minitest, Standard Ruby, the gem build and changelog generation. Tests control
+connector executables and HTTP boundaries; they need no Cloudflare account or
+internet once dependencies are installed.
 
-Prepare a new version from a clean `main` working tree:
-
-```sh
-bundle exec rake 'release:prepare[patch]' # minor, major or a newer X.Y.Z
-```
-
-The task checks for existing local and remote tags, updates the changelog and
-version, runs `bin/ci`, commits with `LEFTHOOK=0`, creates an annotated tag, and
-pushes the branch followed by the tag. This matches Indexmap and Crawlscope;
-release commits bypass the hook that normally blocks direct commits to main.
-
-For the first `0.1.0` release, whose version and changelog are already present,
-run `bundle exec rake 'release:prepare[0.1.0]'`. With no existing release tags,
-the task accepts the current version, verifies its changelog entry, runs checks,
-and pushes the branch and tag without creating an empty commit. Subsequent
-releases require a newer version. `release:tag` remains available to tag an
-already prepared version on clean, synchronized `main`.
-
-`rake release` refuses local publication. A `v*` tag triggers
-`.github/workflows/release.yml`: verify main ancestry and version, run `bin/ci`,
-publish to RubyGems and create a GitHub release with release notes and the gem
-attached.
-
-Before the first tag, configure a RubyGems pending trusted publisher for gem
-`cloudflare-tunnel`, owner `ethos-link`, repository `cloudflare-tunnel`, workflow
-`release.yml`, environment `rubygems`. Configure the matching GitHub environment
-and release restrictions. Publishing uses OIDC with the RubyGems credentials
-action used by Indexmap and Crawlscope. No publishing token is stored here.
-Creating this workflow does not register the publisher or publish a release.
+Use `bundle exec rake -T` to list available tasks. See the
+[changelog](CHANGELOG.md) for version history.
 
 ## More from Ethos Link
 
 Cloudflare Tunnel is maintained by [Ethos Link](https://www.ethos-link.com),
 the software company behind Reviato and Nuntio. We build business products and
-share open-source tools for developers working with Ruby and Rails.
+share open-source software.
 
 - [Reviato — customer feedback and review analytics](https://www.reviato.com):
   Collect private guest feedback and explore recurring themes in public reviews.
