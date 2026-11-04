@@ -1,6 +1,6 @@
 # Upgrade notes
 
-## Unreleased
+## 0.1.2
 
 Development and release tooling uses Gemkit 0.2.0. Update the gem and workflow
 pins together; see the [Gemkit upgrade guide](https://github.com/ethos-link/ethos-gemkit/blob/main/UPGRADE.md).
