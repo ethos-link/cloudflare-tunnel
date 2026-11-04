@@ -6,20 +6,18 @@ jobs. The gem supervises an existing `cloudflared` executable; it never installs
 downloads or updates it, creates a tunnel, or changes DNS.
 
 Requires Ruby 4.0+, Rails 8.1 and a POSIX host (Linux or macOS).
-MIT licensed; maintained by Ethos Link. This is an independent integration.
+MIT licensed; maintained by [Ethos Link](https://www.ethos-link.com).
+This is an independent integration.
 
 ## Rails setup
 
-Add to the development group (once published):
+Add to the development group:
 
 ```ruby
 group :development do
   gem "cloudflare-tunnel", "~> 0.1"
 end
 ```
-
-Before the first release, use the GitHub repository pinned to a reviewed commit,
-or a local `path:` dependency while developing the gem.
 
 ```sh
 bundle install
@@ -28,10 +26,7 @@ bin/rails generate cloudflare_tunnel:install \
 ```
 
 The generator creates `config/initializers/cloudflare_tunnel.rb` and adds
-`tunnel: bin/rails cloudflare_tunnel:start` to `Procfile.dev`. It replaces the
-legacy `tunnel: bin/tunnel` entry, preserves other services and custom tunnel
-commands, and avoids duplicate entries. Remove the old script after migrating.
-If you have no `bin/dev`, run the task separately or use your Procfile manager.
+`tunnel: bin/rails cloudflare_tunnel:start` to `Procfile.dev`.
 
 Install the executable yourself using [Cloudflare's instructions](https://developers.cloudflare.com/tunnel/downloads/).
 When missing, the start task prints that link once and stays idle so Foreman
@@ -136,33 +131,30 @@ management API token is required.
 References: [run parameters](https://developers.cloudflare.com/tunnel/reference/run-parameters/)
 and [readiness example](https://developers.cloudflare.com/tunnel/guides/kubernetes/).
 
-## Development and releases
+## Development
 
-Run `bin/setup`, then `bin/ci` for Minitest, Standard Ruby, gem build and git-cliff
-generation. Tests control connector executables and HTTP boundaries; they need
-no Cloudflare account or internet once dependencies are installed. Use
-`bundle exec rake -T` to list tasks. Branch/PR Actions runs commitlint only.
-All other checks run locally and in the tag-triggered release workflow.
+Run `bin/setup` to install development dependencies, then `bin/ci` to run
+Minitest, Standard Ruby, the gem build and changelog generation. Tests control
+connector executables and HTTP boundaries; they need no Cloudflare account or
+internet once dependencies are installed.
 
-Prepare a version on a feature branch:
+Use `bundle exec rake -T` to list available tasks. See the
+[changelog](CHANGELOG.md) for version history.
 
-```sh
-bundle exec rake 'release:prepare[patch]' # minor, major or a newer X.Y.Z
-bin/ci
-# Review and commit version/changelog, then open and merge a PR.
-```
+## More from Ethos Link
 
-On clean, synchronized `main`, `bundle exec rake release:tag` verifies the
-version/changelog and runs local CI, then creates and pushes an annotated tag.
-This supports the first `0.1.0` release, whose changelog entry is already present.
-It never commits to main or publishes locally. `rake release` refuses local
-publication. A `v*` tag triggers `.github/workflows/release.yml`: verify main
-ancestry and version, run `bin/ci`, publish to RubyGems and create a GitHub release
-with release notes and the gem attached.
+Cloudflare Tunnel is maintained by [Ethos Link](https://www.ethos-link.com),
+the software company behind Reviato and Nuntio. We build business products and
+share open-source software.
 
-Before the first tag, configure a RubyGems pending trusted publisher for gem
-`cloudflare-tunnel`, owner `ethos-link`, repository `cloudflare-tunnel`, workflow
-`release.yml`, environment `rubygems`. Configure the matching GitHub environment
-and release restrictions. Publishing uses OIDC with the RubyGems credentials
-action used by Indexmap and Crawlscope. No publishing token is stored here.
-Creating this workflow does not register the publisher or publish a release.
+- [Reviato — customer feedback and review analytics](https://www.reviato.com):
+  Collect private guest feedback and explore recurring themes in public reviews.
+  Hotels, restaurants and other local businesses can read the original customer
+  comments, track feedback and decide what needs attention.
+- [Nuntio — social media scheduling and publishing](https://www.nuntiohq.com):
+  Prepare social posts ahead of time, adapt captions and media for each channel,
+  and bring drafts, team review, scheduling and publishing outcomes into one
+  workspace.
+
+Explore [Ethos Link's products](https://www.ethos-link.com/products) and
+[open-source projects](https://www.ethos-link.com/opensource).

@@ -8,3 +8,10 @@
 - Connector readiness and signed local/public application diagnostics.
 - Secure temporary tokens, per-app locking and bounded child shutdown.
 - Local quality checks and tag-triggered GitHub Actions publishing.
+
+### Changed
+
+- Release preparation runs from main, checks for duplicate tags, runs local
+  checks, commits version and changelog updates, and pushes the branch and tag.
+- The first release can use the existing version and changelog without a version
+  bump or empty commit. Publishing runs in GitHub Actions after the tag is pushed.
