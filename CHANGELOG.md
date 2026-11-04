@@ -18,5 +18,5 @@
 
 ### Fixed
 
-- Declare the RubyGems owner during the trusted-publishing token exchange so the
-  pending trusted publisher can create the gem on its first release.
+- Use a shared credentials action with an explicit RubyGems owner for trusted
+  publishing of both first and subsequent releases.
