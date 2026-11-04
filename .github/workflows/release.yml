@@ -10,6 +10,6 @@ permissions:
   id-token: write
 jobs:
   release:
-    uses: ethos-link/ethos-gemkit/.github/workflows/release.yml@8441b78f7c9bae4ce170485fb246d3775c43c748
+    uses: ethos-link/ethos-gemkit/.github/workflows/release.yml@2ec3e3279ce09e5a7dd2b84f050d86f6f8817ef7
     with:
       rubygems-owner: '27209'
