@@ -2,6 +2,8 @@ pre-commit:
   jobs:
     - name: feature-branch
       run: bundle exec ethos-gemkit guard
+    - name: standard
+      run: bundle exec rake standard
 commit-msg:
   jobs:
     - name: commitlint
