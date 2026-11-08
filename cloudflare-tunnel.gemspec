@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary = "Quiet, offline-tolerant Cloudflare tunnels for Rails development"
   spec.description = "Supervise host-installed cloudflared with Rails configuration, quiet retries, secure token handling, and end-to-end diagnostics."
-  spec.homepage = "https://github.com/ethos-link/cloudflare-tunnel"
+  spec.homepage = "https://www.ethos-link.com/opensource/cloudflare-tunnel"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 4.0"
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
@@ -18,8 +18,8 @@ Gem::Specification.new do |spec|
   spec.metadata["source_code_uri"] = "https://github.com/ethos-link/cloudflare-tunnel"
   spec.metadata["changelog_uri"] = "https://github.com/ethos-link/cloudflare-tunnel/blob/main/CHANGELOG.md"
 
-  spec.metadata["bug_tracker_uri"] = "#{spec.homepage}/issues"
-  spec.metadata["documentation_uri"] = "#{spec.homepage}/blob/main/README.md"
+  spec.metadata["bug_tracker_uri"] = "https://github.com/ethos-link/cloudflare-tunnel/issues"
+  spec.metadata["documentation_uri"] = spec.homepage
   spec.metadata["rubygems_mfa_required"] = "true"
 
   spec.files = Dir.chdir(__dir__) { Dir["lib/**/*", "README.md", "LICENSE.txt", "CHANGELOG.md", "UPGRADE.md"].select { |file| File.file?(file) } }
