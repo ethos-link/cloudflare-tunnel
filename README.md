@@ -6,11 +6,21 @@ jobs. The gem supervises an existing `cloudflared` executable; it never installs
 downloads or updates it, creates a tunnel, or changes DNS.
 
 Requires Ruby 4.0+ and a POSIX host (Linux or macOS). Rails integration
-requires host-installed Rails 8.1+. Runner and probe classes can load without Rails.
+requires host-installed Rails 8.1 or newer, below Rails 9. Runner and probe classes can load without Rails.
 MIT licensed; maintained by [Ethos Link](https://www.ethos-link.com).
 This is an independent integration.
 
+## Documentation
+
+This README and the linked repository guides describe the checked-out code.
+The [Ethos Link project page](https://www.ethos-link.com/opensource/cloudflare-tunnel)
+provides the canonical public project guide, overview and resources.
+
 ## Rails setup
+
+The host must already have a remotely-managed Cloudflare tunnel and a public
+hostname. The generator configures the Rails side; configure the published
+application and DNS in Cloudflare separately.
 
 Add to the development group:
 
@@ -146,3 +156,19 @@ bundle exec rake verify
 Tests use controlled local fixtures and need no service account.
 Release preparation, publication, registry setup and recovery are documented
 in the [Gemkit release guide](https://github.com/ethos-link/ethos-gemkit#releasing-a-gem).
+
+## License
+
+MIT. See [LICENSE.txt](LICENSE.txt).
+
+## About Ethos Link
+
+[Ethos Link](https://www.ethos-link.com) is a software company founded by
+[Paulo Fidalgo](https://www.fidalgo.pt). This gem is part of the open-source
+tooling we publish alongside our business products:
+
+- [Reviato](https://www.reviato.com): collect private customer feedback and analyse public reviews.
+- [Nuntio](https://www.nuntiohq.com): prepare, review and schedule social posts.
+- [EthosPlaces](https://www.ethos.place): find places, opening hours and contact details.
+
+Explore our [open-source projects](https://www.ethos-link.com/opensource).
